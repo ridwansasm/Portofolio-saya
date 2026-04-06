@@ -1,29 +1,50 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio | Ridwan Sasmita</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>RIDWAN SASMITA - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
     <style>
         :root {
-            --primary: #00d2ff;
-            --secondary: #9d50bb;
-            --bg-dark: #050505;
-            --text-light: #e0e0e0;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-hover: rgba(255, 255, 255, 0.1);
+            --bg-deep: #0a1628;
+            --bg-mid: #0d2137;
+            --ocean-dark: #0c2340;
+            --ocean-mid: #1a4a6e;
+            --ocean-light: #2d7d9a;
+            --accent-cyan: #00d4ff;
+            --accent-teal: #00ffc8;
+            --text-primary: #e8f4f8;
+            --text-secondary: #a0c4d4;
+            --card-bg: rgba(13, 33, 55, 0.85);
+            --border-color: rgba(0, 212, 255, 0.2);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
             overflow-x: hidden;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         #canvas-container {
@@ -32,898 +53,1134 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 0;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 50px 20px;
+        .content-wrapper {
             position: relative;
-            z-index: 1;
+            z-index: 10;
         }
 
-        /* Language Selector */
-        .lang-selector {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            padding: 8px 15px;
-            display: flex;
-            gap: 5px;
-            transition: all 0.3s ease;
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .lang-selector:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
+        .glass-card:hover {
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.15);
+            transform: translateY(-4px);
         }
 
-        .lang-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-light);
-            padding: 5px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            opacity: 0.7;
-        }
-
-        .lang-btn.active, .lang-btn:hover {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            opacity: 1;
-        }
-
-        header {
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: radial-gradient(circle at center, rgba(157, 80, 187, 0.15) 0%, transparent 70%);
-            padding-top: 60px;
-        }
-
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 8vw, 5rem);
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            background: linear-gradient(to right, var(--primary), var(--secondary), #ff6b6b);
+        .section-title {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: gradient 3s ease infinite;
-            margin-bottom: 10px;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
         }
 
-        @keyframes gradient {
-            0%, 100% { background-position: 0% center; }
-            50% { background-position: 100% center; }
+        .hero-name {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            background: linear-gradient(135deg, #ffffff, var(--accent-cyan), var(--accent-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--primary);
-            letter-spacing: 2px;
-            font-weight: 300;
-            animation: fadeInUp 1s ease;
+        .hero-role {
+            font-size: clamp(0.8rem, 2vw, 1.2rem);
+            letter-spacing: 0.3em;
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        section {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 40px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        section::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        section:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0, 210, 255, 0.1);
-        }
-
-        section:hover::before { opacity: 1; }
-
-        h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            color: var(--primary);
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 10px;
-            position: relative;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: -1px; left: 0;
-            width: 60px; height: 2px;
-            background: var(--secondary);
-        }
-
-        .item {
-            margin-bottom: 30px;
-            position: relative;
-            padding-left: 20px;
-            border-left: 2px solid var(--secondary);
+        .clock-card {
+            background: linear-gradient(145deg, rgba(26, 74, 110, 0.6), rgba(12, 35, 64, 0.8));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            min-width: 160px;
             transition: all 0.3s ease;
         }
 
-        .item:hover {
-            border-left-color: var(--primary);
-            padding-left: 25px;
+        .clock-card:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-cyan);
         }
 
-        .item-title {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #fff;
+        .clock-city {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--accent-teal);
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        .item-meta {
-            font-size: 0.9rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-weight: 500;
+        .clock-time {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        ul { list-style: none; margin-top: 10px; }
-        ul li {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 8px;
-            transition: transform 0.2s ease;
+        .translate-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 2px solid transparent;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        ul li:hover { transform: translateX(5px); }
-        ul li::before {
-            content: "▹";
-            color: var(--secondary);
-            position: absolute;
-            left: 0;
-            transition: color 0.3s ease;
-        }
-        ul li:hover::before { color: var(--primary); }
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
+        .translate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .translate-btn.active {
+            box-shadow: 0 0 20px currentColor;
+            transform: scale(1.05);
+        }
+
+        .btn-indonesia {
+            background: linear-gradient(135deg, #ff3860, #ff6b6b);
+            color: white;
+        }
+
+        .btn-english {
+            background: linear-gradient(135deg, #3273dc, #5a9fd4);
+            color: white;
+        }
+
+        .btn-japanese {
+            background: linear-gradient(135deg, #dc2626, #f87171);
+            color: white;
+        }
+
+        .btn-german {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #1a1a1a;
         }
 
         .skill-tag {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 12px 15px;
-            border-radius: 12px;
-            text-align: center;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
             font-size: 0.85rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--accent-cyan);
             transition: all 0.3s ease;
-            cursor: default;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-tag::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.2), transparent);
-            transition: left 0.5s ease;
         }
 
         .skill-tag:hover {
-            background: rgba(0, 210, 255, 0.15);
-            border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 210, 255, 0.1);
+            background: rgba(0, 212, 255, 0.2);
+            transform: translateY(-2px);
         }
 
-        .skill-tag:hover::before { left: 100%; }
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid var(--ocean-mid);
+        }
 
-        .contact-link {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 14px 35px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--accent-cyan);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 1rem;
             transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);
         }
 
-        .contact-link::before {
+        .nav-link::after {
             content: '';
             position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .contact-link:hover {
-            opacity: 0.95;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 210, 255, 0.5);
-        }
-
-        .contact-link:hover::before { left: 100%; }
-
-        footer {
-            text-align: center;
-            padding: 50px;
-            font-size: 0.8rem;
-            opacity: 0.6;
-            position: relative;
-        }
-
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 50%;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            transition: all 0.3s ease;
             transform: translateX(-50%);
-            width: 100px; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
         }
 
-        @media (max-width: 600px) {
-            section { padding: 25px; }
-            .lang-selector {
-                top: 10px; right: 10px;
-                padding: 5px 10px;
+        .nav-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: float-particle 15s infinite linear;
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
             }
-            .lang-btn { padding: 4px 10px; font-size: 0.8rem; }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100px) rotate(720deg);
+                opacity: 0;
+            }
         }
 
-        /* Scroll animation */
-        .fade-in {
+        .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .fade-in.visible {
+
+        .reveal.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+            .particle {
+                animation: none;
+            }
+        }
+
+        .glow-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-teal), transparent);
+            opacity: 0.6;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--ocean-mid);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-cyan);
+        }
+
+        .lang-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            z-index: 100;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .translating {
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
     </style>
 </head>
 <body>
     <div id="canvas-container"></div>
 
-    <!-- Language Selector -->
-    <div class="lang-selector">
-        <button class="lang-btn active" data-lang="id">ID</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="jp">JP</button>
+    <div class="floating-particles" id="particles"></div>
+
+    <div class="lang-indicator">
+        <span style="color: var(--accent-teal);">LANG:</span> <span id="current-lang" style="color: var(--accent-cyan);">ENGLISH</span>
     </div>
 
-    <div class="container">
-        <header>
-            <h1 data-key="name">RIDWAN SASMITA</h1>
-            <p class="subtitle" data-key="title">ELECTRICAL & TELECOMMUNICATION ENGINEER</p>
-        </header>
-
-        <section class="fade-in">
-            <h2 data-key="about_title">ABOUT ME</h2>
-            <p data-key="about_text">Graduated with a Bachelor of Electrical Engineering majoring in Telecommunication from Gunadarma University. I interested and enthusiastic about IT solutions and engineering because I have experience in installation, configuration, troubleshooting, and maintenance of fiber optic networks, and have been involved in several network development and expansion projects from the planning stage to implementation. I also have a background in electrical engineering, with a strong understanding of electrical systems and the fundamentals of communication networks that support technical and operational performance in the field.</p>
-        </section>
-
-        <section class="fade-in">
-            <h2 data-key="education_title">EDUCATION</h2>
-            <div class="item">
-                <div class="item-title">Universitas Gunadarma</div>
-                <div class="item-meta">2020 – 2024 | IPK: 3.43</div>
-                <p data-key="edu1_desc">Bachelor Degree of Electrical Engineering in field Telecommunication</p>
+    <div class="content-wrapper">
+        <!-- Navigation -->
+        <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-opacity-80" style="background: rgba(10, 22, 40, 0.9);">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none">
+                            <circle cx="16" cy="16" r="14" stroke="url(#grad1)" stroke-width="2"/>
+                            <path d="M8 16h16M16 8v16" stroke="url(#grad1)" stroke-width="2" stroke-linecap="round"/>
+                            <defs>
+                                <linearGradient id="grad1" x1="0" y1="0" x2="32" y2="32">
+                                    <stop offset="0%" stop-color="#00d4ff"/>
+                                    <stop offset="100%" stop-color="#00ffc8"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="font-semibold tracking-wider">RS</span>
+                    </div>
+                    <div class="hidden md:flex items-center gap-6">
+                        <a href="#about" class="nav-link" data-translate="nav_about">About</a>
+                        <a href="#experience" class="nav-link" data-translate="nav_experience">Experience</a>
+                        <a href="#skills" class="nav-link" data-translate="nav_skills">Skills</a>
+                        <a href="#contact" class="nav-link" data-translate="nav_contact">Contact</a>
+                    </div>
+                </div>
             </div>
-            <div class="item">
-                <div class="item-title">SMAN 17 Jakarta</div>
-                <div class="item-meta">2016 – 2019</div>
-                <p data-key="edu2_desc">Departement of Natural Science</p>
-            </div>
-        </section>
+        </nav>
 
-        <section class="fade-in">
-            <h2 data-key="experience_title">WORK EXPERIENCE</h2>
-            <div class="item">
-                <div class="item-title" data-key="exp1_title">Corporate Helpdesk - PT. Linknet Tbk.</div>
-                <div class="item-meta">8 July 2025 – Now</div>
-                <ul>
-                    <li data-key="exp1_1">Monitoring Network Operation Center (NOC)</li>
-                    <li data-key="exp1_2">Performing ticketing, monitoring, and escalating customer service issues</li>
-                    <li data-key="exp1_3">Troubleshooting customer corporate internet distruptions</li>
-                </ul>
+        <!-- Hero Section -->
+        <section class="min-h-screen flex flex-col justify-center items-center px-4 pt-20 pb-10">
+            <div class="text-center reveal">
+                <p class="hero-role mb-4" data-translate="hero_role">ELECTRICAL ENGINEERING / TELECOMMUNICATION ENGINEER</p>
+                <h1 class="hero-name mb-6">RIDWAN SASMITA</h1>
+                <div class="glow-line w-48 mx-auto mb-8"></div>
             </div>
-            <div class="item">
-                <div class="item-title" data-key="exp2_title">Optical Fibre Technician & Monitoring (Intern) - PT. Telkom Indonesia Tbk.</div>
-                <div class="item-meta">11 Sep 2023 – 11 Dec 2023</div>
-                <ul>
-                    <li data-key="exp2_1">New fibre optic installations for customers in every home</li>
-                    <li data-key="exp2_2">Handling maintenances on problem customers</li>
-                    <li data-key="exp2_3">Monitoring fiber optic attenuation in customers</li>
-                </ul>
-            </div>
-        </section>
 
-        <section class="fade-in">
-            <h2 data-key="projects_title">PROJECTS</h2>
-            <div class="item">
-                <div class="item-title" data-key="proj1_title">Project Engineer - Migration Services</div>
-                <div class="item-meta">PT. Telkomsel</div>
-                <p data-key="proj1_desc">Migration Services (Vlan) DC ITDC TBS from FortiGate firewall to Palo Alto firewall (20 Nov 2024 – 21 Nov 2024) & Migration Services (Vlan) DC ITDC BSD from FortiGate firewall to Palo Alto firewall (08 Feb 2025 – 09 Feb 2025)</p>
-                <ul>
-                    <li data-key="proj1_1">IP Centre / Vlan data migration Fortigate from Firewall to Palo Alto Firewall using Palo Alto and Putty/ SecureCRT SSH software</li>
-                    <li data-key="proj1_2">IP Centre / Vlan Monitoring</li>
-                    <li data-key="proj1_3">Troubleshooting IP Centre / Vlan Maintenance</li>
-                    <li data-key="proj1_4">Problematic IP data centre analysis using google spreadsheets and Palo Alto Software</li>
-                </ul>
+            <!-- Real-time Clocks -->
+            <div class="flex flex-wrap justify-center gap-4 mb-10 reveal" style="animation-delay: 0.2s;">
+                <div class="clock-card text-center">
+                    <div class="clock-city">JAKARTA</div>
+                    <div class="clock-time" id="clock-jakarta">--:--:--</div>
+                </div>
+                <div class="clock-card text-center">
+                    <div class="clock-city">TOKYO</div>
+                    <div class="clock-time" id="clock-tokyo">--:--:--</div>
+                </div>
+                <div class="clock-card text-center">
+                    <div class="clock-city">BERLIN</div>
+                    <div class="clock-time" id="clock-berlin">--:--:--</div>
+                </div>
             </div>
-        </section>
 
-        <section class="fade-in">
-            <h2 data-key="hard_skills_title">HARD SKILLS</h2>
-            <div class="skills-grid">
-                <div class="skill-tag" data-key="skill1">Fiber Optic</div>
-                <div class="skill-tag" data-key="skill2">Network Topology</div>
-                <div class="skill-tag" data-key="skill3">LAN / WAN</div>
-                <div class="skill-tag" data-key="skill4">Palo Alto Software</div>
-                <div class="skill-tag" data-key="skill5">SecureCRT / SSH</div>
-                <div class="skill-tag" data-key="skill6">Matlab</div>
-                <div class="skill-tag" data-key="skill7">LTSpice</div>
-                <div class="skill-tag" data-key="skill8">Arduino IDE</div>
-                <div class="skill-tag" data-key="skill9">Proteus Professional</div>
-                <div class="skill-tag" data-key="skill10">Microsoft Visio / Draw.io</div>
-                <div class="skill-tag" data-key="skill11">MS Office 365</div>
-                <div class="skill-tag" data-key="skill12">Frequency Modulation</div>
+            <!-- Translate Buttons -->
+            <div class="flex flex-wrap justify-center gap-3 reveal" style="animation-delay: 0.4s;">
+                <button id="btn-id" class="translate-btn btn-indonesia" onclick="setLanguage('id')">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+                    Indonesia
+                </button>
+                <button id="btn-en" class="translate-btn btn-english active" onclick="setLanguage('en')">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+                    English
+                </button>
+                <button id="btn-ja" class="translate-btn btn-japanese" onclick="setLanguage('ja')">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+                    Japanese
+                </button>
+                <button id="btn-de" class="translate-btn btn-german" onclick="setLanguage('de')">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+                    German
+                </button>
             </div>
         </section>
 
-        <section class="fade-in">
-            <h2 data-key="soft_skills_title">SOFT SKILLS</h2>
-            <div class="skills-grid">
-                <div class="skill-tag" data-key="soft1">Adaptation</div>
-                <div class="skill-tag" data-key="soft2">Communication</div>
-                <div class="skill-tag" data-key="soft3">Time Management</div>
-                <div class="skill-tag" data-key="soft4">Critical Thinking</div>
-                <div class="skill-tag" data-key="soft5">Problem Solving</div>
-                <div class="skill-tag" data-key="soft6">Handle Pressure</div>
+        <!-- About Section -->
+        <section id="about" class="py-20 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-card p-8 reveal">
+                    <h2 class="section-title" data-translate="title_about">About Me</h2>
+                    <p class="text-base leading-relaxed text-justify" style="color: var(--text-secondary);" data-translate="about_text">
+                        Graduated with a Bachelor of Electrical Engineering majoring in Telecommunication from Gunadarma University. I interested and enthusiastic about IT solutions and engineering because I have experience in installation, configuration, troubleshooting, and maintenance of fiber optic networks, and have been involved in several network development and expansion projects from the planning stage to implementation. I also have a background in electrical engineering, with a strong understanding of electrical systems and the fundamentals of communication networks that support technical and operational performance in the field.
+                    </p>
+                </div>
             </div>
         </section>
 
-        <section class="fade-in">
-            <h2 data-key="cert_title">CERTIFICATION & TRAINING</h2>
-            <ul>
-                <li data-key="cert1">Design of Low Voltage Utilization Installations (BNSP)</li>
-                <li data-key="cert2">Analog Electronic Circuit Design with LTSpice (Gunadarma University)</li>
-            </ul>
-        </section>
-
-        <section class="fade-in">
-            <h2 data-key="org_title">ORGANIZATION</h2>
-            <div class="item">
-                <div class="item-title" data-key="org1_title">Head of Media Information Division</div>
-                <div class="item-meta">Gunadarma University Electrical Student Association (21 Aug 2021 – 27 Sep 2022)</div>
-                <ul>
-                    <li data-key="org1_1">Create a big day designs and post on social media</li>
-                    <li data-key="org1_2">Create project design images on set events</li>
-                    <li data-key="org1_3">Reporting the division's performance at the end of each month at meetings</li>
-                </ul>
+        <!-- Overview Section -->
+        <section class="py-10 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-card p-8 reveal">
+                    <h2 class="section-title" data-translate="title_overview">Overview</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <p><span class="text-cyan-400 font-semibold" data-translate="label_name">Name:</span> <span style="color: var(--text-secondary);">Ridwan Sasmita</span></p>
+                            <p><span class="text-cyan-400 font-semibold" data-translate="label_email">Email:</span> <span style="color: var(--text-secondary);">ridwansasm14@gmail.com</span></p>
+                            <p><span class="text-cyan-400 font-semibold" data-translate="label_linkedin">Linkedin:</span> <span style="color: var(--text-secondary);">www.linkedin.com/in/ridwansasm14</span></p>
+                            <p><span class="text-cyan-400 font-semibold" data-translate="label_phone">Phone:</span> <span style="color: var(--text-secondary);">081226834082</span></p>
+                        </div>
+                        <div>
+                            <p class="text-cyan-400 font-semibold mb-2" data-translate="label_language">Language:</p>
+                            <p style="color: var(--text-secondary);" data-translate="language_list">1. English (Written)<br>2. Indonesia (Intermediate)</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section class="fade-in">
-            <h2 data-key="commitment_title">OUR COMMITMENT</h2>
-            <p style="font-style: italic; opacity: 0.9;" data-key="commitment_text">"I believe that every challenge is an opportunity for growth. Therefore, I always strive to develop new ideas and find the best ways to achieve shared goals. I have a strong passion for learning, so I'm ready to adapt to new work environments, understand company cultures, and continuously improve my soft skills and technical abilities. Furthermore, I have a strong motivation to continuously develop and contribute creative ideas that can support team efficiency and productivity. I believe that a company's success is the result of collaboration, effective communication, and the commitment of every employee to achieve a shared vision. With an unyielding spirit, a strong sense of curiosity, and the ability to adapt to technological changes, I am confident that I can be a truly helpful part of the company's progress and grow together towards a brighter future."</p>
+        <!-- Education Section -->
+        <section class="py-10 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-card p-8 reveal">
+                    <h2 class="section-title" data-translate="title_education">Education</h2>
+                    <div class="space-y-6">
+                        <div class="timeline-item pb-6">
+                            <h3 class="font-semibold text-lg mb-1" data-translate="edu_school1">Senior High School 17 Jakarta</h3>
+                            <p class="text-cyan-400 text-sm mb-2">14 Jul 2016 - 2 Mei 2019</p>
+                            <p style="color: var(--text-secondary);" data-translate="edu_dept1">Departement of Natural Science</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h3 class="font-semibold text-lg mb-1" data-translate="edu_school2">Gunadarma University</h3>
+                            <p class="text-cyan-400 text-sm mb-2">28 Sep 2020 - 30 Aug 2024</p>
+                            <p style="color: var(--text-secondary);" data-translate="edu_degree2">Bachelor Degree of Electrical Engineering in field Telecommunication</p>
+                            <p class="mt-2"><span class="text-cyan-400 font-semibold" data-translate="label_gpa">GPA:</span> <span style="color: var(--text-secondary);">3.43</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section class="fade-in" style="text-align: center;">
-            <h2 data-key="contact_title">GET IN TOUCH</h2>
-            <p>Email: ridwansasm14@gmail.com</p>
-            <p>Phone: 081226834082</p>
-            <a href="https://linktr.ee/ridwansasm14" class="contact-link" target="_blank" data-key="contact_link">Visit My Linktree</a>
+        <!-- Certification Section -->
+        <section class="py-10 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-card p-8 reveal">
+                    <h2 class="section-title" data-translate="title_certification">Certification & Training</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-cyan-400 mt-1">●</span>
+                            <p style="color: var(--text-secondary);" data-translate="cert1">Design of Low Voltage Utilization Installations by Badan Nasional Sertifikasi Profesi (BNSP)</p>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-cyan-400 mt-1">●</span>
+                            <p style="color: var(--text-secondary);" data-translate="cert2">Analog Electronic Circuit Design with LTSpice software by Gunadarma University</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
 
-        <footer>
-            <p>&copy; <span data-key="footer">Made By Ridwan Sasmita</span></p>
+        <!-- Work Experience Section -->
+        <section id="experience" class="py-10 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-card p-8 reveal">
+                    <h2 class="section-title" data-translate="title_experience">Work Experience</h2>
+                    
+                    <div class="mb-8">
+                        <div class="flex flex-wrap items-center gap-3 mb-3">
+                            <h3 class="font-semibold text-lg" data-translate="work1_company">(Internship) PT. Telkom Indonesia Tbk.</h3>
+                            <span class="text-cyan-400 text-sm">(Sep 2023 – Dec 2023)</span>
+                        </div>
+                        <p class="text-teal-400 font-medium mb-3" data-translate="work1_role">Optical Fibre Technician & Monitoring</p>
+                        <ul class="space-y-2 ml-4">
+                            <li class="flex items-start gap-2">
+                                <span class="text-cyan-400 mt-1">•</span>
+                                <p style="color: var(--text-secondary);" data-translate="work1_task1">New fibre optic installations for customers in every home</p>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-cyan-400 mt-1">•</span>
+                                <p style="color: var(--text-secondary);" data-translate="work1_task2">Handling maintenances on problem customers</p>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-cyan-400 mt-1">•</span>
+                                <p style="color: var(--text-secondary);" data-translate="work1_task3">Monitoring fiber optic attenuation in customers</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex flex-wrap items-center gap-3 mb-3">
+                            <h3 class="font-semibold text-lg" data-translate="work2_company">PT. Linknet Tbk.</h3>
+                            <span class="text-cyan-400 text-sm">(Jul 2025 – Now)</span>
+                        </div>
+                        <p class="text-teal-400 font-medium mb-3" data-translate="work2_role">Corporate Helpdesk</p>
+                        <ul class="space-y-2 ml-4">
+                            <li class="flex items-start gap-2">
+                                <span class="text-cyan-400 mt-1">•</span>
+                                <p style="color: var(--text-secondary);" data-translate="work2_task1">Monitoring Network Operation Center</p>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-cyan-400 mt-1">•</span>
+                                <p style="color: var(--text-secondary);" data-translate="work2_task2">Performing ticketing, monitoring, and escalating customer service issues</p>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-cyan-400 mt-1">•</span>
+                                <p style="color: var(--text-secondary);" data-translate="work2_task3">Troubleshooting customer internet distruptions</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Section -->
+        <section class="py-10 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-card p-8 reveal">
+                    <h2 class="section-title" data-translate="title_project">Project</h2>
+                    
+                    <div class="mb-4">
+                        <h3 class="font-semibold text-lg" data-translate="project1">PT. Telkomsel-Migration Services (Vlan) DC ITDC TBS from FortiGate firewall to Palo Alto firewall</h3>
+                        <p class="text-cyan-400 text-sm mb-3">(Nov 2024 – Nov 2024)</p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-lg" data-translate="project2">PT. Telkomsel-Migration Services (Vlan) DC ITDC BSD from FortiGate firewall to Palo Alto firewall</h3>
+                        <p class="text-cyan-400 text-sm mb-3">(Feb 2025 – Feb 2025)</p>
+                    </div>
+
+                    <p class="text-teal-400 font-medium mb-3" data-translate="project_role">Project Engineer</p>
+                    <ul class="space-y-2 ml-4">
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 mt-1">•</span>
+                            <p style="color: var(--text-secondary);" data-translate="project_task1">IP Centre / Vlan data migration Fortigate from Firewall to Palo Alto Firewall using Palo Alto and Putty/SecureCRT SSH software</p>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 mt-1">•</span>
+                            <p style="color: var(--text-secondary);" data-translate="project_task2">IP Centre / Vlan Monitoring</p>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 mt-1">•</span>
+                            <p style="color: var(--text-secondary);" data-translate="project_task3">Troubleshooting IP Centre / Vlan Maintenance</p>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 mt-1">•</span>
+                            <p style="color: var(--text-secondary);" data-translate="project_task4">Problematic IP data centre analysis using google spreadsheets and Palo Alto Software</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Organization Section -->
+        <section class="py-10 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-card p-8 reveal">
+                    <h2 class="section-title" data-translate="title_organization">Organization Experience</h2>
+                    
+                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                        <h3 class="font-semibold text-lg" data-translate="org_name">Gunadarma University Electrical Student Association</h3>
+                        <span class="text-cyan-400 text-sm">(Aug 2021 – May 2022)</span>
+                    </div>
+                    
+                    <p class="text-teal-400 font-medium mb-3" data-translate="org_role">Head of Media Information Division</p>
+                    <ul class="space-y-2 ml-4">
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 mt-1">•</span>
+                            <p style="color: var(--text-secondary);" data-translate="org_task1">Create a big day designs and post on social media</p>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 mt-1">•</span>
+                            <p style="color: var(--text-secondary);" data-translate="org_task2">Create project design images on set events</p>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 mt-1">•</span>
+                            <p style="color: var(--text-secondary);" data-translate="org_task3">Reporting the division's performance at the end of each month at meetings</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-10 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-card p-8 reveal">
+                    <h2 class="section-title" data-translate="title_softskill">Soft Skill</h2>
+                    <div class="flex flex-wrap gap-3 mb-8">
+                        <span class="skill-tag" data-translate="skill_adaptation">Adaptation</span>
+                        <span class="skill-tag" data-translate="skill_timemanagement">Time Management</span>
+                        <span class="skill-tag" data-translate="skill_criticalthinking">Critical Thinking</span>
+                        <span class="skill-tag" data-translate="skill_communication">Communication</span>
+                        <span class="skill-tag" data-translate="skill_problemsolving">Good Problem-Solving Skill</span>
+                        <span class="skill-tag" data-translate="skill_pressure">Ability to Handle Pressure</span>
+                    </div>
+
+                    <h2 class="section-title" data-translate="title_hardskill">Hard Skill</h2>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-tag">Microsoft Office 365</span>
+                        <span class="skill-tag">Microsoft Visio / drawio</span>
+                        <span class="skill-tag" data-translate="skill_network">Network Topology</span>
+                        <span class="skill-tag">Google Spreadsheets/Slides/Docs</span>
+                        <span class="skill-tag" data-translate="skill_fm">Frequency Modulation</span>
+                        <span class="skill-tag">Matlab</span>
+                        <span class="skill-tag">Secure CRT SSH</span>
+                        <span class="skill-tag" data-translate="skill_fiber">Fiber Optic</span>
+                        <span class="skill-tag">Proteus Professional</span>
+                        <span class="skill-tag">Arduino IDE</span>
+                        <span class="skill-tag">LAN / WAN</span>
+                        <span class="skill-tag" data-translate="skill_am">Amplitudo Modulation</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Commitment Section -->
+        <section class="py-10 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-card p-8 reveal">
+                    <h2 class="section-title" data-translate="title_commitment">Our Commitment</h2>
+                    <p class="text-base leading-relaxed mb-6" style="color: var(--text-secondary);" data-translate="commitment_p1">
+                        I believe that every challenge is an opportunity for growth. Therefore, I always strive to develop new ideas and find the best ways to achieve shared goals. I have a strong passion for learning, so I'm ready to adapt to new work environments, understand company cultures, and continuously improve my soft skills and technical abilities.
+                    </p>
+                    <p class="text-base leading-relaxed" style="color: var(--text-secondary);" data-translate="commitment_p2">
+                        Furthermore, I have a strong motivation to continuously develop and contribute creative ideas that can support team efficiency and productivity. I believe that a company's success is the result of collaboration, effective communication, and the commitment of every employee to achieve a shared vision. With an unyielding spirit, a strong sense of curiosity, and the ability to adapt to technological changes, I am confident that I can be a truly helpful part of the company's progress and grow together towards a brighter future.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contact" class="py-20 px-4">
+            <div class="max-w-5xl mx-auto text-center">
+                <div class="glass-card p-12 reveal">
+                    <h2 class="text-3xl font-bold mb-6" style="color: var(--accent-cyan);" data-translate="footer_title">We Look Forward to Seeing You</h2>
+                    <div class="glow-line w-32 mx-auto mb-8"></div>
+                    <div class="flex flex-wrap justify-center gap-6 text-sm" style="color: var(--text-secondary);">
+                        <span>RIDWAN SASMITA</span>
+                        <span>|</span>
+                        <a href="mailto:ridwansasm14@gmail.com" class="hover:text-cyan-400 transition-colors">ridwansasm14@gmail.com</a>
+                        <span>|</span>
+                        <a href="https://linktr.ee/ridwansasm14" target="_blank" class="hover:text-cyan-400 transition-colors">https://linktr.ee/ridwansasm14</a>
+                    </div>
+                </div>
+            </div>
         </footer>
     </div>
 
-    <script>
-        // ==================== TRANSLATION SYSTEM ====================
-        const translations = {
-            id: {
-                name: "RIDWAN SASMITA",
-                title: "ENGINEER ELEKTRIK & TELEKOMUNIKASI",
-                about_title: "TENTANG SAYA",
-                about_text: "Lulus dengan gelar Sarjana Teknik Elektro jurusan Telekomunikasi dari Universitas Gunadarma. Saya tertarik dan antusias dengan solusi IT dan teknik karena saya memiliki pengalaman dalam instalasi, konfigurasi, troubleshooting, dan pemeliharaan jaringan fiber optik, serta telah terlibat dalam beberapa proyek pengembangan dan ekspansi jaringan dari tahap perencanaan hingga implementasi. Saya juga memiliki latar belakang teknik elektro, dengan pemahaman yang kuat tentang sistem kelistrikan dan fundamental jaringan komunikasi yang mendukung kinerja teknis dan operasional di lapangan.",
-                education_title: "PENDIDIKAN",
-                edu1_desc: "Sarjana Teknik Elektro bidang Telekomunikasi",
-                edu2_desc: "Jurusan Ilmu Pengetahuan Alam",
-                experience_title: "PENGALAMAN KERJA",
-                exp1_title: "Corporate Helpdesk - PT. Linknet Tbk.",
-                exp1_1: "Monitoring Network Operation Center (NOC)",
-                exp1_2: "Melakukan ticketing, monitoring, dan eskalasi masalah layanan pelanggan",
-                exp1_3: "Troubleshooting gangguan internet korporat pelanggan",
-                exp2_title: "Teknisi & Monitoring Fiber Optik (Magang) - PT. Telkom Indonesia Tbk.",
-                exp2_1: "Instalasi fiber optik baru untuk pelanggan di setiap rumah",
-                exp2_2: "Menangani pemeliharaan pada pelanggan bermasalah",
-                exp2_3: "Monitoring atenuasi fiber optik pada pelanggan",
-                projects_title: "PROYEK",
-                proj1_title: "Project Engineer - Layanan Migrasi",
-                proj1_desc: "Layanan Migrasi (Vlan) DC ITDC TBS dari firewall FortiGate ke firewall Palo Alto (20 Nov 2024 – 21 Nov 2024) & Layanan Migrasi (Vlan) DC ITDC BSD dari firewall FortiGate ke firewall Palo Alto (08 Feb 2025 – 09 Feb 2025)",
-                proj1_1: "Migrasi data IP Centre / Vlan Fortigate dari Firewall ke Palo Alto Firewall menggunakan software Palo Alto dan Putty/ SecureCRT SSH",
-                proj1_2: "Monitoring IP Centre / Vlan",
-                proj1_3: "Troubleshooting Pemeliharaan IP Centre / Vlan",
-                proj1_4: "Analisis data centre IP yang bermasalah menggunakan google spreadsheet dan Software Palo Alto",
-                hard_skills_title: "HARD SKILLS",
-                skill1: "Fiber Optik",
-                skill2: "Topologi Jaringan",
-                skill3: "LAN / WAN",
-                skill4: "Software Palo Alto",
-                skill5: "SecureCRT / SSH",
-                skill6: "Matlab",
-                skill7: "LTSpice",
-                skill8: "Arduino IDE",
-                skill9: "Proteus Professional",
-                skill10: "Microsoft Visio / Draw.io",
-                skill11: "MS Office 365",
-                skill12: "Modulasi Frekuensi",
-                soft_skills_title: "SOFT SKILLS",
-                soft1: "Adaptasi",
-                soft2: "Komunikasi",
-                soft3: "Manajemen Waktu",
-                soft4: "Berpikir Kritis",
-                soft5: "Pemecahan Masalah",
-                soft6: "Bekerja di Bawah Tekanan",
-                cert_title: "SERTIFIKASI & PELATIHAN",
-                cert1: "Desain Instalasi Pemanfaatan Tegangan Rendah (BNSP)",
-                cert2: "Desain Rangkaian Elektronika Analog dengan LTSpice (Universitas Gunadarma)",
-                org_title: "ORGANISASI",
-                org1_title: "Kepala Divisi Informasi Media",
-                org1_1: "Membuat desain hari besar dan posting di media sosial",
-                org1_2: "Membuat gambar desain proyek pada acara-acara tertentu",
-                org1_3: "Melaporkan kinerja divisi di akhir setiap bulan pada rapat",
-                commitment_title: "KOMITMEN KAMI",
-                commitment_text: "Saya percaya bahwa setiap tantangan adalah peluang untuk berkembang. Oleh karena itu, saya selalu berusaha mengembangkan ide-ide baru dan menemukan cara terbaik untuk mencapai tujuan bersama. Saya memiliki passion yang kuat untuk belajar, sehingga saya siap beradaptasi dengan lingkungan kerja baru, memahami budaya perusahaan, dan terus meningkatkan soft skill serta kemampuan teknis saya. Selain itu, saya memiliki motivasi yang kuat untuk terus berkembang dan memberikan kontribusi ide-ide kreatif yang dapat mendukung efisiensi dan produktivitas tim. Saya percaya bahwa kesuksesan perusahaan adalah hasil dari kolaborasi, komunikasi yang efektif, dan komitmen setiap karyawan untuk mencapai visi bersama. Dengan semangat yang tak kenal menyerah, rasa ingin tahu yang kuat, dan kemampuan beradaptasi terhadap perubahan teknologi, saya yakin dapat menjadi bagian yang benar-benar membantu kemajuan perusahaan dan tumbuh bersama menuju masa depan yang lebih cerah.",
-                contact_title: "HUBUNGI SAYA",
-                contact_link: "Kunjungi Linktree Saya",
-                footer: "Dibuat Oleh Ridwan Sasmita"
-            },
-            en: {
-                name: "RIDWAN SASMITA",
-                title: "ELECTRICAL & TELECOMMUNICATION ENGINEER",
-                about_title: "ABOUT ME",
-                about_text: "Graduated with a Bachelor of Electrical Engineering majoring in Telecommunication from Gunadarma University. I interested and enthusiastic about IT solutions and engineering because I have experience in installation, configuration, troubleshooting, and maintenance of fiber optic networks, and have been involved in several network development and expansion projects from the planning stage to implementation. I also have a background in electrical engineering, with a strong understanding of electrical systems and the fundamentals of communication networks that support technical and operational performance in the field.",
-                education_title: "EDUCATION",
-                edu1_desc: "Bachelor Degree of Electrical Engineering in field Telecommunication",
-                edu2_desc: "Departement of Natural Science",
-                experience_title: "WORK EXPERIENCE",
-                exp1_title: "Corporate Helpdesk - PT. Linknet Tbk.",
-                exp1_1: "Monitoring Network Operation Center (NOC)",
-                exp1_2: "Performing ticketing, monitoring, and escalating customer service issues",
-                exp1_3: "Troubleshooting customer corporate internet distruptions",
-                exp2_title: "Optical Fibre Technician & Monitoring (Intern) - PT. Telkom Indonesia Tbk.",
-                exp2_1: "New fibre optic installations for customers in every home",
-                exp2_2: "Handling maintenances on problem customers",
-                exp2_3: "Monitoring fiber optic attenuation in customers",
-                projects_title: "PROJECTS",
-                proj1_title: "Project Engineer - Migration Services",
-                proj1_desc: "Migration Services (Vlan) DC ITDC TBS from FortiGate firewall to Palo Alto firewall (20 Nov 2024 – 21 Nov 2024) & Migration Services (Vlan) DC ITDC BSD from FortiGate firewall to Palo Alto firewall (08 Feb 2025 – 09 Feb 2025)",
-                proj1_1: "IP Centre / Vlan data migration Fortigate from Firewall to Palo Alto Firewall using Palo Alto and Putty/ SecureCRT SSH software",
-                proj1_2: "IP Centre / Vlan Monitoring",
-                proj1_3: "Troubleshooting IP Centre / Vlan Maintenance",
-                proj1_4: "Problematic IP data centre analysis using google spreadsheets and Palo Alto Software",
-                hard_skills_title: "HARD SKILLS",
-                skill1: "Fiber Optic",
-                skill2: "Network Topology",
-                skill3: "LAN / WAN",
-                skill4: "Palo Alto Software",
-                skill5: "SecureCRT / SSH",
-                skill6: "Matlab",
-                skill7: "LTSpice",
-                skill8: "Arduino IDE",
-                skill9: "Proteus Professional",
-                skill10: "Microsoft Visio / Draw.io",
-                skill11: "MS Office 365",
-                skill12: "Frequency Modulation",
-                soft_skills_title: "SOFT SKILLS",
-                soft1: "Adaptation",
-                soft2: "Communication",
-                soft3: "Time Management",
-                soft4: "Critical Thinking",
-                soft5: "Problem Solving",
-                soft6: "Handle Pressure",
-                cert_title: "CERTIFICATION & TRAINING",
-                cert1: "Design of Low Voltage Utilization Installations (BNSP)",
-                cert2: "Analog Electronic Circuit Design with LTSpice (Gunadarma University)",
-                org_title: "ORGANIZATION",
-                org1_title: "Head of Media Information Division",
-                org1_1: "Create a big day designs and post on social media",
-                org1_2: "Create project design images on set events",
-                org1_3: "Reporting the division's performance at the end of each month at meetings",
-                commitment_title: "OUR COMMITMENT",
-                commitment_text: "I believe that every challenge is an opportunity for growth. Therefore, I always strive to develop new ideas and find the best ways to achieve shared goals. I have a strong passion for learning, so I'm ready to adapt to new work environments, understand company cultures, and continuously improve my soft skills and technical abilities. Furthermore, I have a strong motivation to continuously develop and contribute creative ideas that can support team efficiency and productivity. I believe that a company's success is the result of collaboration, effective communication, and the commitment of every employee to achieve a shared vision. With an unyielding spirit, a strong sense of curiosity, and the ability to adapt to technological changes, I am confident that I can be a truly helpful part of the company's progress and grow together towards a brighter future.",
-                contact_title: "GET IN TOUCH",
-                contact_link: "Visit My Linktree",
-                footer: "Made By Ridwan Sasmita"
-            },
-            jp: {
-                name: "リドワン・サスミタ",
-                title: "電気・通信エンジニア",
-                about_title: "自己紹介",
-                about_text: "グナダルマ大学電気工学部通信学科を卒業。光ファイバーネットワークの設置、設定、トラブルシューティング、保守の経験があり、計画段階から実装まで複数のネットワーク開発・拡張プロジェクトに関わってきたため、ITソリューションとエンジニアリングに興味があり、情熱を持っています。また、電気工学のバックグラウンドを持ち、現場での技術的・運用的パフォーマンスを支える電気システムと通信ネットワークの基礎を強く理解しています。",
-                education_title: "学歴",
-                edu1_desc: "電気工学学士（通信分野）",
-                edu2_desc: "自然科学科",
-                experience_title: "職歴",
-                exp1_title: "コーポレートヘルプデスク - PT. Linknet Tbk.",
-                exp1_1: "ネットワークオペレーションセンター（NOC）の監視",
-                exp1_2: "チケット発行、監視、顧客サービス問題のエスカレーションの実施",
-                exp1_3: "顧客企業向けインターネット障害のトラブルシューティング",
-                exp2_title: "光ファイバー技術者・監視（インターン）- PT. Telkom Indonesia Tbk.",
-                exp2_1: "各家庭向け顧客への新規光ファイバー設置",
-                exp2_2: "問題のある顧客への保守対応",
-                exp2_3: "顧客における光ファイバー減衰の監視",
-                projects_title: "プロジェクト",
-                proj1_title: "プロジェクトエンジニア - 移行サービス",
-                proj1_desc: "DC ITDC TBSのFortiGateファイアウォールからPalo Altoファイアウォールへの移行サービス（Vlan）（2024年11月20日～21日）およびDC ITDC BSDのFortiGateファイアウォールからPalo Altoファイアウォールへの移行サービス（Vlan）（2025年2月8日～9日）",
-                proj1_1: "Palo AltoおよびPutty/SecureCRT SSHソフトウェアを使用したFortigateファイアウォールからPalo AltoファイアウォールへのIPセンター/Vlanデータ移行",
-                proj1_2: "IPセンター/Vlanの監視",
-                proj1_3: "IPセンター/Vlan保守のトラブルシューティング",
-                proj1_4: "GoogleスプレッドシートおよびPalo Altoソフトウェアを使用した問題のあるIPデータセンター分析",
-                hard_skills_title: "ハードスキル",
-                skill1: "光ファイバー",
-                skill2: "ネットワークトポロジ",
-                skill3: "LAN / WAN",
-                skill4: "Palo Altoソフトウェア",
-                skill5: "SecureCRT / SSH",
-                skill6: "Matlab",
-                skill7: "LTSpice",
-                skill8: "Arduino IDE",
-                skill9: "Proteus Professional",
-                skill10: "Microsoft Visio / Draw.io",
-                skill11: "MS Office 365",
-                skill12: "周波数変調",
-                soft_skills_title: "ソフトスキル",
-                soft1: "適応力",
-                soft2: "コミュニケーション",
-                soft3: "時間管理",
-                soft4: "クリティカルシンキング",
-                soft5: "問題解決",
-                soft6: "プレッシャーへの対応",
-                cert_title: "認定・研修",
-                cert1: "低圧利用設備設計（BNSP）",
-                cert2: "LTSpiceを使用したアナログ電子回路設計（グナダルマ大学）",
-                org_title: "組織活動",
-                org1_title: "メディア情報部門長",
-                org1_1: "ビッグデーのデザイン作成とSNSへの投稿",
-                org1_2: "イベント時のプロジェクトデザイン画像作成",
-                org1_3: "月次会議での部門パフォーマンス報告",
-                commitment_title: "私たちのコミットメント",
-                commitment_text: "すべての挑戦は成長の機会だと信じています。そのため、常に新しいアイデアを開発し、共通の目標を達成するための最善の方法を見つけるよう努めています。学習への強い情熱を持っているため、新しい職場環境への適応、企業文化の理解、ソフトスキルと技術力の継続的向上に準備ができています。さらに、チームの効率性と生産性をサポートできる創造的なアイデアを継続的に開発・貢献する強い動機を持っています。企業の成功は、コラボレーション、効果的なコミュニケーション、そして共通のビジョンを達成するための全従業員のコミットメントの結果だと信じています。屈しない精神、強い好奇心、技術変化への適応力を持ち、企業の進歩に真に役立つ一員となり、より明るい未来に向けて共に成長できると確信しています。",
-                contact_title: "お問い合わせ",
-                contact_link: "Linktreeを見る",
-                footer: "リドワン・サスミタ作成"
-            }
-        };
+    <script type="module">
+        import * as THREE from 'three';
 
-        // Language switcher functionality
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const lang = this.dataset.lang;
-                
-                // Update active button
-                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Apply translations
-                document.querySelectorAll('[data-key]').forEach(el => {
-                    const key = el.dataset.key;
-                    if (translations[lang][key]) {
-                        el.textContent = translations[lang][key];
-                    }
-                });
-                
-                // Update HTML lang attribute
-                document.documentElement.lang = lang;
-                
-                // Save preference
-                localStorage.setItem('preferredLang', lang);
-            });
-        });
-
-        // Load saved language preference
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedLang = localStorage.getItem('preferredLang') || 'id';
-            const btn = document.querySelector(`.lang-btn[data-lang="${savedLang}"]`);
-            if (btn) btn.click();
-            
-            // Initialize scroll animations
-            initScrollAnimations();
-        });
-
-        // Scroll animation observer
-        function initScrollAnimations() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            document.querySelectorAll('.fade-in').forEach(el => {
-                observer.observe(el);
-            });
-        }
-
-        // ==================== ENHANCED 3D BACKGROUND ====================
+        // Three.js 3D Background
+        const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
+        container.appendChild(renderer.domElement);
 
-        // Create particle system with enhanced effects
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particleCount = 3000;
-        const posArray = new Float32Array(particleCount * 3);
-        const sizeArray = new Float32Array(particleCount);
-        const colorArray = new Float32Array(particleCount * 3);
+        const oceanColors = [0x0c2340, 0x1a4a6e, 0x2d7d9a, 0x00d4ff];
 
-        const colors = [
-            new THREE.Color(0x00d2ff), // cyan
-            new THREE.Color(0x9d50bb), // purple
-            new THREE.Color(0xff6b6b), // coral
-            new THREE.Color(0x4ecdc4)  // teal
-        ];
-
-        for(let i = 0; i < particleCount; i++) {
-            // Position - spread in sphere
-            const radius = 15 + Math.random() * 35;
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.acos(2 * Math.random() - 1);
-            
-            posArray[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-            posArray[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-            posArray[i * 3 + 2] = radius * Math.cos(phi) * 0.5;
-            
-            // Size variation
-            sizeArray[i] = Math.random() * 0.04 + 0.01;
-            
-            // Random color from palette
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            colorArray[i * 3] = color.r;
-            colorArray[i * 3 + 1] = color.g;
-            colorArray[i * 3 + 2] = color.b;
-        }
-
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        particlesGeometry.setAttribute('aSize', new THREE.BufferAttribute(sizeArray, 1));
-        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
-
-        // Custom shader material for particles
-        const particlesMaterial = new THREE.ShaderMaterial({
-            uniforms: {
-                pointTexture: { value: createCircleTexture() },
-                time: { value: 0 }
-            },
-            vertexShader: `
-                attribute float aSize;
-                attribute vec3 color;
-                varying vec3 vColor;
-                uniform float time;
-                
-                void main() {
-                    vColor = color;
-                    vec3 pos = position;
-                    
-                    // Add subtle floating animation
-                    pos.y += sin(time * 0.5 + position.x * 0.3) * 0.3;
-                    pos.x += cos(time * 0.3 + position.z * 0.2) * 0.2;
-                    
-                    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-                    gl_PointSize = aSize * (300.0 / -mvPosition.z);
-                    gl_Position = projectionMatrix * mvPosition;
-                }
-            `,
-            fragmentShader: `
-                uniform sampler2D pointTexture;
-                varying vec3 vColor;
-                
-                void main() {
-                    vec4 texColor = texture2D(pointTexture, gl_PointCoord);
-                    if(texColor.a < 0.1) discard;
-                    
-                    // Add glow effect
-                    float dist = length(gl_PointCoord - 0.5);
-                    float glow = 1.0 - smoothstep(0.3, 0.5, dist);
-                    
-                    gl_FragColor = vec4(vColor * glow * 1.5, texColor.a * glow);
-                }
-            `,
-            transparent: true,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false
-        });
-
-        function createCircleTexture() {
-            const canvas = document.createElement('canvas');
-            canvas.width = 64;
-            canvas.height = 64;
-            const ctx = canvas.getContext('2d');
-            
-            const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-            gradient.addColorStop(0, 'rgba(255,255,255,1)');
-            gradient.addColorStop(0.3, 'rgba(255,255,255,0.8)');
-            gradient.addColorStop(1, 'rgba(255,255,255,0)');
-            
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, 64, 64);
-            
-            const texture = new THREE.CanvasTexture(canvas);
-            texture.needsUpdate = true;
-            return texture;
-        }
-
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        // Add floating geometric shapes
+        const objects = [];
         const geometries = [
-            new THREE.IcosahedronGeometry(0.8, 0),
-            new THREE.OctahedronGeometry(0.7, 0),
-            new THREE.TetrahedronGeometry(0.9, 0)
+            new THREE.IcosahedronGeometry(0.5, 0),
+            new THREE.OctahedronGeometry(0.5, 0),
+            new THREE.TetrahedronGeometry(0.5, 0),
+            new THREE.BoxGeometry(0.4, 0.4, 0.4),
+            new THREE.TorusGeometry(0.3, 0.1, 8, 16)
         ];
-        
-        const shapes = [];
-        for(let i = 0; i < 12; i++) {
-            const geometry = geometries[Math.floor(Math.random() * geometries.length)];
-            const material = new THREE.MeshBasicMaterial({
-                color: colors[Math.floor(Math.random() * colors.length)],
-                wireframe: true,
+
+        for (let i = 0; i < 50; i++) {
+            const geom = geometries[Math.floor(Math.random() * geometries.length)];
+            const material = new THREE.MeshPhongMaterial({
+                color: oceanColors[Math.floor(Math.random() * oceanColors.length)],
                 transparent: true,
-                opacity: 0.6
+                opacity: 0.6 + Math.random() * 0.3,
+                wireframe: Math.random() > 0.5
             });
             
-            const mesh = new THREE.Mesh(geometry, material);
-            
-            // Random position in sphere
-            const radius = 20 + Math.random() * 25;
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.acos(2 * Math.random() - 1);
-            
+            const mesh = new THREE.Mesh(geom, material);
             mesh.position.set(
-                radius * Math.sin(phi) * Math.cos(theta),
-                radius * Math.sin(phi) * Math.sin(theta),
-                radius * Math.cos(phi) * 0.5
+                (Math.random() - 0.5) * 30,
+                (Math.random() - 0.5) * 20,
+                (Math.random() - 0.5) * 20 - 5
             );
-            
-            mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+            mesh.rotation.set(
+                Math.random() * Math.PI,
+                Math.random() * Math.PI,
+                Math.random() * Math.PI
+            );
             mesh.userData = {
                 rotationSpeed: {
                     x: (Math.random() - 0.5) * 0.01,
                     y: (Math.random() - 0.5) * 0.01,
                     z: (Math.random() - 0.5) * 0.01
                 },
-                floatSpeed: Math.random() * 0.002 + 0.001,
-                floatOffset: Math.random() * Math.PI * 2
+                floatSpeed: Math.random() * 0.5 + 0.5,
+                floatOffset: Math.random() * Math.PI * 2,
+                originalY: mesh.position.y
             };
             
+            objects.push(mesh);
             scene.add(mesh);
-            shapes.push(mesh);
         }
 
-        // Add ambient light effect with subtle color shifts
-        camera.position.z = 40;
-
-        // Mouse interaction
-        let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        const linesMaterial = new THREE.LineBasicMaterial({ 
+            color: 0x00d4ff, 
+            transparent: true, 
+            opacity: 0.15 
         });
 
-        // Touch support for mobile
-        document.addEventListener('touchmove', (e) => {
-            if(e.touches.length > 0) {
-                mouseX = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
-                mouseY = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
-            }
-        }, { passive: true });
+        for (let i = 0; i < 30; i++) {
+            const points = [];
+            const start = new THREE.Vector3(
+                (Math.random() - 0.5) * 25,
+                (Math.random() - 0.5) * 15,
+                (Math.random() - 0.5) * 15 - 5
+            );
+            const end = new THREE.Vector3(
+                (Math.random() - 0.5) * 25,
+                (Math.random() - 0.5) * 15,
+                (Math.random() - 0.5) * 15 - 5
+            );
+            points.push(start, end);
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const line = new THREE.Line(geometry, linesMaterial);
+            scene.add(line);
+        }
 
-        // Animation loop
+        const ambientLight = new THREE.AmbientLight(0x00d4ff, 0.3);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0x00ffc8, 0.8);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+
+        const pointLight1 = new THREE.PointLight(0x00d4ff, 1, 50);
+        pointLight1.position.set(-10, 5, 5);
+        scene.add(pointLight1);
+
+        const pointLight2 = new THREE.PointLight(0x00ffc8, 0.8, 50);
+        pointLight2.position.set(10, -5, 5);
+        scene.add(pointLight2);
+
+        camera.position.z = 15;
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
         const clock = new THREE.Clock();
-        
+
         function animate() {
             requestAnimationFrame(animate);
             
-            const elapsedTime = clock.getElapsedTime();
-            particlesMaterial.uniforms.time.value = elapsedTime;
-            
-            // Smooth mouse follow
-            targetX += (mouseX - targetX) * 0.05;
-            targetY += (mouseY - targetY) * 0.05;
-            
-            // Rotate entire particle system
-            particlesMesh.rotation.y = elapsedTime * 0.03 + targetX * 0.3;
-            particlesMesh.rotation.x = elapsedTime * 0.02 + targetY * 0.2;
-            
-            // Animate floating shapes
-            shapes.forEach((shape, index) => {
-                shape.rotation.x += shape.userData.rotationSpeed.x;
-                shape.rotation.y += shape.userData.rotationSpeed.y;
-                shape.rotation.z += shape.userData.rotationSpeed.z;
-                
-                // Floating motion
-                shape.position.y += Math.sin(elapsedTime * shape.userData.floatSpeed + shape.userData.floatOffset) * 0.01;
-                
-                // Subtle pulse effect on opacity
-                shape.material.opacity = 0.4 + Math.sin(elapsedTime * 0.5 + index) * 0.2;
+            const time = clock.getElapsedTime();
+
+            objects.forEach(obj => {
+                obj.rotation.x += obj.userData.rotationSpeed.x;
+                obj.rotation.y += obj.userData.rotationSpeed.y;
+                obj.rotation.z += obj.userData.rotationSpeed.z;
+                obj.position.y = obj.userData.originalY + Math.sin(time * obj.userData.floatSpeed + obj.userData.floatOffset) * 0.5;
             });
-            
-            // Subtle camera movement
-            camera.position.x += (targetX * 2 - camera.position.x) * 0.01;
-            camera.position.y += (targetY * 2 - camera.position.y) * 0.01;
+
+            camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
+            camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
             camera.lookAt(scene.position);
-            
+
             renderer.render(scene, camera);
         }
 
-        // Handle resize
+        animate();
+
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
+    </script>
 
-        // Start animation
-        animate();
-
-        // Performance optimization: reduce quality on mobile
-        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            renderer.setPixelRatio(1);
-            particlesGeometry.attributes.position.array = new Float32Array(1500 * 3);
-            particlesGeometry.attributes.position.needsUpdate = true;
+    <script>
+        // Clock Functions
+        function updateClocks() {
+            const now = new Date();
+            
+            const jakartaTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
+            document.getElementById('clock-jakarta').textContent = jakartaTime.toLocaleTimeString('en-GB');
+            
+            const tokyoTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
+            document.getElementById('clock-tokyo').textContent = tokyoTime.toLocaleTimeString('en-GB');
+            
+            const berlinTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Berlin' }));
+            document.getElementById('clock-berlin').textContent = berlinTime.toLocaleTimeString('en-GB');
         }
+
+        updateClocks();
+        setInterval(updateClocks, 1000);
+
+        // Floating Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Translation System
+        const translations = {
+            en: {
+                nav_about: "About",
+                nav_experience: "Experience",
+                nav_skills: "Skills",
+                nav_contact: "Contact",
+                hero_role: "ELECTRICAL ENGINEERING / TELECOMMUNICATION ENGINEER",
+                title_about: "About Me",
+                about_text: "Graduated with a Bachelor of Electrical Engineering majoring in Telecommunication from Gunadarma University. I interested and enthusiastic about IT solutions and engineering because I have experience in installation, configuration, troubleshooting, and maintenance of fiber optic networks, and have been involved in several network development and expansion projects from the planning stage to implementation. I also have a background in electrical engineering, with a strong understanding of electrical systems and the fundamentals of communication networks that support technical and operational performance in the field.",
+                title_overview: "Overview",
+                label_name: "Name:",
+                label_email: "Email:",
+                label_linkedin: "Linkedin:",
+                label_phone: "Phone:",
+                label_language: "Language:",
+                language_list: "1. English (Written)<br>2. Indonesia (Intermediate)",
+                title_education: "Education",
+                edu_school1: "Senior High School 17 Jakarta",
+                edu_dept1: "Departement of Natural Science",
+                edu_school2: "Gunadarma University",
+                edu_degree2: "Bachelor Degree of Electrical Engineering in field Telecommunication",
+                label_gpa: "GPA:",
+                title_certification: "Certification & Training",
+                cert1: "Design of Low Voltage Utilization Installations by Badan Nasional Sertifikasi Profesi (BNSP)",
+                cert2: "Analog Electronic Circuit Design with LTSpice software by Gunadarma University",
+                title_experience: "Work Experience",
+                work1_company: "(Internship) PT. Telkom Indonesia Tbk.",
+                work1_role: "Optical Fibre Technician & Monitoring",
+                work1_task1: "New fibre optic installations for customers in every home",
+                work1_task2: "Handling maintenances on problem customers",
+                work1_task3: "Monitoring fiber optic attenuation in customers",
+                work2_company: "PT. Linknet Tbk.",
+                work2_role: "Corporate Helpdesk",
+                work2_task1: "Monitoring Network Operation Center",
+                work2_task2: "Performing ticketing, monitoring, and escalating customer service issues",
+                work2_task3: "Troubleshooting customer internet distruptions",
+                title_project: "Project",
+                project1: "PT. Telkomsel-Migration Services (Vlan) DC ITDC TBS from FortiGate firewall to Palo Alto firewall",
+                project2: "PT. Telkomsel-Migration Services (Vlan) DC ITDC BSD from FortiGate firewall to Palo Alto firewall",
+                project_role: "Project Engineer",
+                project_task1: "IP Centre / Vlan data migration Fortigate from Firewall to Palo Alto Firewall using Palo Alto and Putty/SecureCRT SSH software",
+                project_task2: "IP Centre / Vlan Monitoring",
+                project_task3: "Troubleshooting IP Centre / Vlan Maintenance",
+                project_task4: "Problematic IP data centre analysis using google spreadsheets and Palo Alto Software",
+                title_organization: "Organization Experience",
+                org_name: "Gunadarma University Electrical Student Association",
+                org_role: "Head of Media Information Division",
+                org_task1: "Create a big day designs and post on social media",
+                org_task2: "Create project design images on set events",
+                org_task3: "Reporting the division's performance at the end of each month at meetings",
+                title_softskill: "Soft Skill",
+                skill_adaptation: "Adaptation",
+                skill_timemanagement: "Time Management",
+                skill_criticalthinking: "Critical Thinking",
+                skill_communication: "Communication",
+                skill_problemsolving: "Good Problem-Solving Skill",
+                skill_pressure: "Ability to Handle Pressure",
+                title_hardskill: "Hard Skill",
+                skill_network: "Network Topology",
+                skill_fm: "Frequency Modulation",
+                skill_fiber: "Fiber Optic",
+                skill_am: "Amplitudo Modulation",
+                title_commitment: "Our Commitment",
+                commitment_p1: "I believe that every challenge is an opportunity for growth. Therefore, I always strive to develop new ideas and find the best ways to achieve shared goals. I have a strong passion for learning, so I'm ready to adapt to new work environments, understand company cultures, and continuously improve my soft skills and technical abilities.",
+                commitment_p2: "Furthermore, I have a strong motivation to continuously develop and contribute creative ideas that can support team efficiency and productivity. I believe that a company's success is the result of collaboration, effective communication, and the commitment of every employee to achieve a shared vision. With an unyielding spirit, a strong sense of curiosity, and the ability to adapt to technological changes, I am confident that I can be a truly helpful part of the company's progress and grow together towards a brighter future.",
+                footer_title: "We Look Forward to Seeing You"
+            },
+            id: {
+                nav_about: "Tentang",
+                nav_experience: "Pengalaman",
+                nav_skills: "Keahlian",
+                nav_contact: "Kontak",
+                hero_role: "TEKNIK ELEKTRO / TEKNIK TELEKOMUNIKASI",
+                title_about: "Tentang Saya",
+                about_text: "Lulusan Sarjana Teknik Elektro jurusan Telekomunikasi dari Universitas Gunadarma. Saya tertarik dan antusias dengan solusi IT dan teknik karena memiliki pengalaman dalam instalasi, konfigurasi, troubleshooting, dan pemeliharaan jaringan fiber optik, serta telah terlibat dalam beberapa proyek pengembangan dan ekspansi jaringan dari tahap perencanaan hingga implementasi. Saya juga memiliki latar belakang teknik elektro, dengan pemahaman yang kuat tentang sistem kelistrikan dan fundamental jaringan komunikasi yang mendukung kinerja teknis dan operasional di lapangan.",
+                title_overview: "Ikhtisar",
+                label_name: "Nama:",
+                label_email: "Email:",
+                label_linkedin: "Linkedin:",
+                label_phone: "Telepon:",
+                label_language: "Bahasa:",
+                language_list: "1. Bahasa Inggris (Tertulis)<br>2. Bahasa Indonesia (Menengah)",
+                title_education: "Pendidikan",
+                edu_school1: "SMA Negeri 17 Jakarta",
+                edu_dept1: "Jurusan Ilmu Pengetahuan Alam",
+                edu_school2: "Universitas Gunadarma",
+                edu_degree2: "Gelar Sarjana Teknik Elektro bidang Telekomunikasi",
+                label_gpa: "IPK:",
+                title_certification: "Sertifikasi & Pelatihan",
+                cert1: "Perancangan Instalasi Pemanfaatan Tegangan Rendah oleh Badan Nasional Sertifikasi Profesi (BNSP)",
+                cert2: "Perancangan Rangkaian Elektronik Analog dengan perangkat lunak LTSpice oleh Universitas Gunadarma",
+                title_experience: "Pengalaman Kerja",
+                work1_company: "(Magang) PT. Telkom Indonesia Tbk.",
+                work1_role: "Teknisi Fiber Optik & Monitoring",
+                work1_task1: "Instalasi fiber optik baru untuk pelanggan di setiap rumah",
+                work1_task2: "Penanganan pemeliharaan pada pelanggan bermasalah",
+                work1_task3: "Monitoring atenuasi fiber optik pada pelanggan",
+                work2_company: "PT. Linknet Tbk.",
+                work2_role: "Helpdesk Korporat",
+                work2_task1: "Monitoring Network Operation Center",
+                work2_task2: "Melakukan ticketing, monitoring, dan eskalasi masalah layanan pelanggan",
+                work2_task3: "Troubleshooting gangguan internet pelanggan",
+                title_project: "Proyek",
+                project1: "PT. Telkomsel-Layanan Migrasi (Vlan) DC ITDC TBS dari firewall FortiGate ke firewall Palo Alto",
+                project2: "PT. Telkomsel-Layanan Migrasi (Vlan) DC ITDC BSD dari firewall FortiGate ke firewall Palo Alto",
+                project_role: "Project Engineer",
+                project_task1: "Migrasi data IP Centre / Vlan Fortigate dari Firewall ke Palo Alto Firewall menggunakan perangkat lunak Palo Alto dan Putty/SecureCRT SSH",
+                project_task2: "Monitoring IP Centre / Vlan",
+                project_task3: "Troubleshooting Pemeliharaan IP Centre / Vlan",
+                project_task4: "Analisis data IP data center bermasalah menggunakan google spreadsheets dan Palo Alto Software",
+                title_organization: "Pengalaman Organisasi",
+                org_name: "Himpunan Mahasiswa Teknik Elektro Universitas Gunadarma",
+                org_role: "Ketua Divisi Informasi Media",
+                org_task1: "Membuat desain hari besar dan memposting di media sosial",
+                org_task2: "Membuat gambar desain proyek pada acara yang ditetapkan",
+                org_task3: "Melaporkan kinerja divisi di akhir setiap bulan pada rapat",
+                title_softskill: "Soft Skill",
+                skill_adaptation: "Adaptasi",
+                skill_timemanagement: "Manajemen Waktu",
+                skill_criticalthinking: "Berpikir Kritis",
+                skill_communication: "Komunikasi",
+                skill_problemsolving: "Kemampuan Pemecahan Masalah yang Baik",
+                skill_pressure: "Kemampuan Menghadapi Tekanan",
+                title_hardskill: "Hard Skill",
+                skill_network: "Topologi Jaringan",
+                skill_fm: "Modulasi Frekuensi",
+                skill_fiber: "Fiber Optik",
+                skill_am: "Modulasi Amplitudo",
+                title_commitment: "Komitmen Kami",
+                commitment_p1: "Saya percaya bahwa setiap tantangan adalah kesempatan untuk berkembang. Oleh karena itu, saya selalu berusaha mengembangkan ide-ide baru dan menemukan cara terbaik untuk mencapai tujuan bersama. Saya memiliki semangat belajar yang kuat, jadi saya siap beradaptasi dengan lingkungan kerja baru, memahami budaya perusahaan, dan terus meningkatkan soft skill dan kemampuan teknis saya.",
+                commitment_p2: "Selanjutnya, saya memiliki motivasi yang kuat untuk terus berkembang dan memberikan kontribusi ide-ide kreatif yang dapat mendukung efisiensi dan produktivitas tim. Saya percaya bahwa kesuksesan perusahaan adalah hasil dari kolaborasi, komunikasi efektif, dan komitmen setiap karyawan untuk mencapai visi bersama. Dengan semangat yang tak padam, rasa ingin tahu yang kuat, dan kemampuan beradaptasi dengan perubahan teknologi, saya yakin bahwa saya dapat menjadi bagian yang sangat membantu dari kemajuan perusahaan dan berkembang bersama menuju masa depan yang lebih cerah.",
+                footer_title: "Kami Menantikan Bertemu dengan Anda"
+            },
+            ja: {
+                nav_about: "概要",
+                nav_experience: "経験",
+                nav_skills: "スキル",
+                nav_contact: "連絡先",
+                hero_role: "電気工学 / 通信エンジニア",
+                title_about: "自己紹介",
+                about_text: "グナダルマ大学にて通信専攻で電気工学の学士号を取得し卒業しました。ファイバーオプティックネットワークの設置、設定、トラブルシューティング、保守の経験があり、計画段階から実装までいくつかのネットワーク開発・拡張プロジェクトに携わってきたため、ITソリューションとエンジニアリングに興味と情熱を持っています。また、電気工学の背景を持ち、現場での技術的・運用的パフォーマンスを支える電気システムと通信ネットワークの基礎について強い理解を持っています。",
+                title_overview: "概要",
+                label_name: "氏名:",
+                label_email: "メール:",
+                label_linkedin: "LinkedIn:",
+                label_phone: "電話:",
+                label_language: "言語:",
+                language_list: "1. 英語（筆記）<br>2. インドネシア語（中級）",
+                title_education: "学歴",
+                edu_school1: "ジャカルタ第17高等学校",
+                edu_dept1: "自然科学科",
+                edu_school2: "グナダルマ大学",
+                edu_degree2: "通信分野の電気工学学士号",
+                label_gpa: "GPA:",
+                title_certification: "資格・研修",
+                cert1: "国家職業認定機関（BNSP）による低圧利用設備の設計",
+                cert2: "グナダルマ大学によるLTSpiceソフトウェアを用いたアナログ電子回路設計",
+                title_experience: "職務経歴",
+                work1_company: "（インターン）PT. Telkom Indonesia Tbk.",
+                work1_role: "光ファイバー技術者・監視",
+                work1_task1: "各家庭の顧客向け新規光ファイバー設置",
+                work1_task2: "問題のある顧客のメンテナンス対応",
+                work1_task3: "顧客の光ファイバー減衰の監視",
+                work2_company: "PT. Linknet Tbk.",
+                work2_role: "コーポレートヘルプデスク",
+                work2_task1: "ネットワークオペレーションセンターの監視",
+                work2_task2: "チケット発行、監視、顧客サービス問題のエスカレーション",
+                work2_task3: "顧客のインターネット障害のトラブルシューティング",
+                title_project: "プロジェクト",
+                project1: "PT. Telkomsel-FortiGateファイアウォールからPalo AltoファイアウォールへのVlan移行サービス DC ITDC TBS",
+                project2: "PT. Telkomsel-FortiGateファイアウォールからPalo AltoファイアウォールへのVlan移行サービス DC ITDC BSD",
+                project_role: "プロジェクトエンジニア",
+                project_task1: "Palo AltoおよびPutty/SecureCRT SSHソフトウェアを使用したFortigate FirewallからPalo Alto FirewallへのIP Centre/Vlanデータ移行",
+                project_task2: "IP Centre/Vlan監視",
+                project_task3: "IP Centre/Vlanメンテナンスのトラブルシューティング",
+                project_task4: "GoogleスプレッドシートとPalo Alto Softwareを使用した問題のあるIPデータセンター分析",
+                title_organization: "組織経験",
+                org_name: "グナダルマ大学電気工学学生会",
+                org_role: "メディア情報部門長",
+                org_task1: "記念日のデザインを作成し、ソーシャルメディアに投稿",
+                org_task2: "設定イベントでのプロジェクトデザイン画像の作成",
+                org_task3: "月次会議での部門パフォーマンス報告",
+                title_softskill: "ソフトスキル",
+                skill_adaptation: "適応力",
+                skill_timemanagement: "タイムマネジメント",
+                skill_criticalthinking: "批判的思考",
+                skill_communication: "コミュニケーション",
+                skill_problemsolving: "優れた問題解決能力",
+                skill_pressure: "プレッシャーへの対処能力",
+                title_hardskill: "ハードスキル",
+                skill_network: "ネットワークトポロジー",
+                skill_fm: "周波数変調",
+                skill_fiber: "光ファイバー",
+                skill_am: "振幅変調",
+                title_commitment: "私たちのコミットメント",
+                commitment_p1: "すべての課題は成長の機会だと信じています。そのため、常に新しいアイデアを開発し、共通の目標を達成するための最良の方法を見つけるよう努力しています。学習への強い情熱を持っているため、新しい職場環境に適応し、企業文化を理解し、ソフトスキルと技術的能力を継続的に向上させる準備ができています。",
+                commitment_p2: "さらに、チームの効率と生産性を支える創造的なアイデアを継続的に開発し貢献する強い動機を持っています。企業の成功は、協力、効果的なコミュニケーション、そしてすべての従業員が共通のビジョンを達成するためのコミットメントの結果だと信じています。不屈の精神、強い好奇心、技術の変化への適応能力を持って、企業の進歩に真に役立つ一部となり、より明るい未来に向けて共に成長できると確信しています。",
+                footer_title: "お会いできることを楽しみにしています"
+            },
+            de: {
+                nav_about: "Über mich",
+                nav_experience: "Erfahrung",
+                nav_skills: "Fähigkeiten",
+                nav_contact: "Kontakt",
+                hero_role: "ELEKTROTECHNIK / NACHRICHTENTECHNIK INGENIEUR",
+                title_about: "Über mich",
+                about_text: "Abschluss als Bachelor der Elektrotechnik mit Schwerpunkt Nachrichtentechnik an der Gunadarma University. Ich interessiere mich und bin begeistert von IT-Lösungen und Ingenieurwesen, da ich Erfahrung in Installation, Konfiguration, Fehlerbehebung und Wartung von Glasfasernetzwerken habe und an mehreren Netzwerkentwicklungs- und Erweiterungsprojekten von der Planungsphase bis zur Umsetzung beteiligt war. Ich habe auch einen Hintergrund in der Elektrotechnik mit einem starken Verständnis von elektrischen Systemen und den Grundlagen der Kommunikationsnetzwerke, die die technische und betriebliche Leistung im Feld unterstützen.",
+                title_overview: "Übersicht",
+                label_name: "Name:",
+                label_email: "E-Mail:",
+                label_linkedin: "LinkedIn:",
+                label_phone: "Telefon:",
+                label_language: "Sprache:",
+                language_list: "1. Englisch (Schriftlich)<br>2. Indonesisch (Fortgeschritten)",
+                title_education: "Ausbildung",
+                edu_school1: "Oberschule 17 Jakarta",
+                edu_dept1: "Naturwissenschaftliche Abteilung",
+                edu_school2: "Gunadarma University",
+                edu_degree2: "Bachelor-Abschluss in Elektrotechnik im Bereich Nachrichtentechnik",
+                label_gpa: "Notendurchschnitt:",
+                title_certification: "Zertifizierung & Schulung",
+                cert1: "Planung von Niederspannungs-Nutzungsanlagen durch die Nationale Berufszertifizierungsstelle (BNSP)",
+                cert2: "Analoger elektronischer Schaltkreisentwurf mit LTSpice-Software durch die Gunadarma University",
+                title_experience: "Berufserfahrung",
+                work1_company: "(Praktikum) PT. Telkom Indonesia Tbk.",
+                work1_role: "Glasfasertechniker & Überwachung",
+                work1_task1: "Neue Glasfaserinstallationen für Kunden in jedem Haus",
+                work1_task2: "Wartung bei Problemkunden",
+                work1_task3: "Überwachung der Glasfaserdämpfung bei Kunden",
+                work2_company: "PT. Linknet Tbk.",
+                work2_role: "Corporate Helpdesk",
+                work2_task1: "Überwachung des Network Operation Center",
+                work2_task2: "Ticketing, Überwachung und Eskalation von Kundendienstproblemen",
+                work2_task3: "Fehlerbehebung bei Internetstörungen der Kunden",
+                title_project: "Projekt",
+                project1: "PT. Telkomsel-Migrationsdienste (Vlan) DC ITDC TBS von FortiGate Firewall zu Palo Alto Firewall",
+                project2: "PT. Telkomsel-Migrationsdienste (Vlan) DC ITDC BSD von FortiGate Firewall zu Palo Alto Firewall",
+                project_role: "Projektingenieur",
+                project_task1: "IP Centre / Vlan Datenmigration von Fortigate Firewall zu Palo Alto Firewall mit Palo Alto und Putty/SecureCRT SSH Software",
+                project_task2: "IP Centre / Vlan Überwachung",
+                project_task3: "Fehlerbehebung IP Centre / Vlan Wartung",
+                project_task4: "Analyse problematischer IP-Datenzentren mit Google Tabellen und Palo Alto Software",
+                title_organization: "Organisationserfahrung",
+                org_name: "Elektrotechnik-Studentenverband der Gunadarma University",
+                org_role: "Leiter der Abteilung für Medieninformationen",
+                org_task1: "Erstellung von Design für besondere Tage und Veröffentlichung in sozialen Medien",
+                org_task2: "Erstellung von Projektdesign-Bildern bei Veranstaltungen",
+                org_task3: "Berichterstattung über die Leistung der Abteilung am Ende jedes Monats bei Meetings",
+                title_softskill: "Soft Skills",
+                skill_adaptation: "Anpassungsfähigkeit",
+                skill_timemanagement: "Zeitmanagement",
+                skill_criticalthinking: "Kritisches Denken",
+                skill_communication: "Kommunikation",
+                skill_problemsolving: "Gute Problemlösungsfähigkeiten",
+                skill_pressure: "Fähigkeit, unter Druck zu arbeiten",
+                title_hardskill: "Fachkenntnisse",
+                skill_network: "Netzwerk-Topologie",
+                skill_fm: "Frequenzmodulation",
+                skill_fiber: "Glasfaser",
+                skill_am: "Amplitudenmodulation",
+                title_commitment: "Unser Engagement",
+                commitment_p1: "Ich glaube, dass jede Herausforderung eine Gelegenheit zum Wachstum ist. Deshalb strebe ich immer danach, neue Ideen zu entwickeln und die besten Wege zu finden, um gemeinsame Ziele zu erreichen. Ich habe eine starke Lernleidenschaft, daher bin ich bereit, mich an neue Arbeitsumgebungen anzupassen, die Unternehmenskultur zu verstehen und meine Soft Skills und technischen Fähigkeiten kontinuierlich zu verbessern.",
+                commitment_p2: "Darüber hinaus habe ich eine starke Motivation, mich kontinuierlich weiterzuentwickeln und kreative Ideen beizusteuern, die die Effizienz und Produktivität des Teams unterstützen können. Ich glaube, dass der Erfolg eines Unternehmens das Ergebnis von Zusammenarbeit, effektiver Kommunikation und dem Engagement jedes Mitarbeiters zur Erreichung einer gemeinsamen Vision ist. Mit unbeugsamem Geist, starker Neugier und der Fähigkeit, sich an technologische Veränderungen anzupassen, bin ich zuversichtlich, dass ich ein wirklich hilfreicher Teil des Fortschritts des Unternehmens sein und gemeinsam in eine hellere Zukunft wachsen kann.",
+                footer_title: "Wir freuen uns darauf, Sie kennenzulernen"
+            }
+        };
+
+        let currentLang = 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const langNames = {
+                'en': 'ENGLISH',
+                'id': 'INDONESIA',
+                'ja': 'JAPANESE',
+                'de': 'GERMAN'
+            };
+
+            // Update language indicator
+            document.getElementById('current-lang').textContent = langNames[lang];
+
+            // Update active button state
+            document.querySelectorAll('.translate-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('btn-' + lang).classList.add('active');
+
+            // Add translating animation
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                el.classList.add('translating');
+            });
+
+            // Apply translations
+            setTimeout(() => {
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    if (translations[lang] && translations[lang][key]) {
+                        el.innerHTML = translations[lang][key];
+                    }
+                    el.classList.remove('translating');
+                });
+            }, 250);
+        }
+
+        // Make setLanguage globally accessible
+        window.setLanguage = setLanguage;
     </script>
 </body>
 </html>
